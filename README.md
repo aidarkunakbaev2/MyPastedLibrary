@@ -2,6 +2,7 @@
 
 i do this library 4hours
 code not was pasted Just ui looks like pasted script
+Dont forget to put on end init
 
 
 # Documentation
