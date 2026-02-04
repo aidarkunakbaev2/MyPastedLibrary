@@ -1,5 +1,5 @@
 --old script
---press
+--hi scar thx for our script
 
 --[[Banana Obfuscator BETA
 Method obf : STRONG]]
