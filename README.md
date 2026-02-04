@@ -5,9 +5,9 @@ i do this library 4hours
 # Documentation
 
 ## Loading Library
-
-`loadstring(game:HttpGet("https://raw.githubusercontent.com/aidarkunakbaev2/MyPastedLibrary/refs/heads/main/source.lua", true))()`
-
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aidarkunakbaev2/MyPastedLibrary/refs/heads/main/source.lua", true))()`
+```
 ### Creating Tabs
 
 ```lua
