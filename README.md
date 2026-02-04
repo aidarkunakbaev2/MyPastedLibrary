@@ -16,6 +16,13 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/aidarkunakbaev2/MyPas
 ```lua
 local window = library:Window({name = "<font color=\"#92EAAA\">onetap.pub</font> | t.me/onetaprbx"})
 ```
+# INIT UI
+
+```lua
+-- PUT IT IN END OR SCRIPT DONT WORK
+aimbot:Turn(true)
+return library, utility, obelus
+```
 
 ### Creating Tabs
 
@@ -49,6 +56,7 @@ local label = aimbot_section:Label({Name = "do you like ui?"})
 ```lua
 local slider = aimbot_section:Slider({Name = "slider cool", Default = 10, Minimum = -10, Maximum = 30, Decimals = 10, Suffix = "%", Callback = function(val) warn(val) end})
 ```
+
 
 #### If you want dropdown go to telegram channel t.me/onetaprbx
 
