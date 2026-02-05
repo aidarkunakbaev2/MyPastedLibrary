@@ -1,7 +1,9 @@
+--thx for your support (i sayed in telegram channel not discord)
+
 -- // Library Tables
 local library = {}
 local utility = {}
-local obelus = {
+local celestial = {
 	connections = {}
 }
 -- // Variables
@@ -33,7 +35,7 @@ do
 		if connectionInfo.Type then
 			local connection = connectionInfo.Type:Connect(connectionInfo.Callback or function() end)
 			--
-			obelus.connections[#obelus.connections] = connection
+			celestial.connections[#celestial.connections] = connection
 			--
 			return connection
 		end
@@ -43,12 +45,12 @@ do
 		local connectionInfo = connectionInfo or {}
 		--
 		if connectionInfo.Connection then
-			local found = table.find(obelus.connections, connectionInfo.Connection)
+			local found = table.find(celestial.connections, connectionInfo.Connection)
 			--
 			if found then
 				connectionInfo.Connection:Disconnect()
 				--
-				table.remove(obelus.connections, found)
+				table.remove(celestial.connections, found)
 			end
 		end
 	end
@@ -64,7 +66,7 @@ do
 			Parent = cre,
 			DisplayOrder = 8888,
 			IgnoreGuiInset = true,
-			Name = "obleus",
+			Name = "celestial",
 			ZIndexBehavior = "Global",
 			ResetOnSpawn = false
 		}})
