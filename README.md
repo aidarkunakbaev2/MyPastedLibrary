@@ -22,9 +22,8 @@ local window = library:Window({name = "<font color=\"#92EAAA\">onetap.pub</font>
 # INIT UI
 
 ```lua
--- PUT IT IN END OR SCRIPT DONT WORK
 aimbot:Turn(true)
-return library, utility, obelus
+return library, utility, celestial
 ```
 
 ### Creating Tabs
