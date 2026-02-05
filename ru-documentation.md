@@ -33,7 +33,7 @@ local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/aidar
 
 ```lua
 -- Инициализация библиотеки
-local library = require(путь_к_библиотеке)
+local library = require(https://raw.githubusercontent.com/aidarkunakbaev2/MyPastedLibrary/refs/heads/main/source.lua)
 
 -- Создание окна
 local window = library:Window({
