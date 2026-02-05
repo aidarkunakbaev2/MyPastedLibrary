@@ -24,7 +24,7 @@ Celestial - это мощная и красивая библиотека пол�
 Просто скопируйте всю библиотеку в свой скрипт:
 
 ```lua
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/aidarkunakbaev2/MyPastedLibrary/main/source.lua"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/aidarkunakbaev2/MyPastedLibrary/refs/heads/main/source.lua"))()
 ```
 
 Или вставьте содержимое файла библиотеки напрямую.
