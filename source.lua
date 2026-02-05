@@ -36,7 +36,9 @@ do
             --
             if createInfo.Properties and typeof(createInfo.Properties) == "table" then
                 for property, value in pairs(createInfo.Properties) do
-                    instance[property] = value
+                    pcall(function()
+                        instance[property] = value
+                    end)
                 end
             end
             --
@@ -215,6 +217,8 @@ do
                     if page.TabTitle then
                         if page.Open then
                             page.TabTitle.TextColor3 = celestial.theme.Primary
+                        else
+                            page.TabTitle.TextColor3 = celestial.theme.Text
                         end
                     end
                     
@@ -265,7 +269,7 @@ do
             Parent = cre,
             DisplayOrder = 8888,
             IgnoreGuiInset = true,
-            Name = "obleus",
+            Name = "celestial",
             ZIndexBehavior = "Global",
             ResetOnSpawn = false
         }})
@@ -317,7 +321,7 @@ do
             Size = UDim2.new(1, -16, 0, 15),
             Font = "Code",
             RichText = true,
-            Text = info.Name or info.name or "obleus",
+            Text = info.Name or info.name or "celestial",
             TextColor3 = celestial.theme.Text,
             TextStrokeTransparency = 0.5,
             TextSize = 13,
@@ -422,7 +426,9 @@ do
         -- // Nested Functions
         function window:RefreshTabs()
             for index, page in pairs(window.Pages) do
-                page.Tab.Size = UDim2.new(1 / (#window.Pages), 0, 1, 0)
+                if page.Tab then
+                    page.Tab.Size = UDim2.new(1 / (#window.Pages), 0, 1, 0)
+                end
             end
         end
         
@@ -513,6 +519,17 @@ do
                 Size = UDim2.new(0.5, -5, 1, 0)
             }})
             
+            -- // Nested Functions
+            function page:Turn(state)
+                if tabTitle and tabGradient and pageHolder then
+                    tabTitle.TextColor3 = state and celestial.theme.Primary or celestial.theme.Text
+                    tabGradient.Color = state and ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(155, 155, 155))}) or ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))})
+                    
+                    pageHolder.Visible = state
+                    page.Open = state
+                end
+            end
+            
             -- // Functions / Connections
             utility:Connection({Type = tabButton.MouseButton1Down, Callback = function()
                 if not page.Open then
@@ -525,15 +542,6 @@ do
                 
                 page:Turn(true)
             end})
-            
-            -- // Nested Functions
-            function page:Turn(state)
-                tabTitle.TextColor3 = state and celestial.theme.Primary or celestial.theme.Text
-                tabGradient.Color = state and ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(155, 155, 155))}) or ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))})
-                
-                pageHolder.Visible = state
-                page.Open = state
-            end
             
             function page:Section(sectionInfo)
                 -- // Variables
@@ -584,7 +592,7 @@ do
                     BorderSizePixel = 0,
                     Parent = sectionMain,
                     Position = UDim2.new(0, 9, 0, 0),
-                    Size = UDim2.new(0, sectionTitle.TextBounds.X + 6, 0, 1)
+                    Size = UDim2.new(0, (sectionTitle.TextBounds and sectionTitle.TextBounds.X or 100) + 6, 0, 1)
                 }})
                 
                 local sectionScrolling = utility:Create({Type = "Frame", Properties = {
@@ -653,7 +661,7 @@ do
                 
                 -- // Nested Functions
                 function section:Update()
-                    if sectionContentHolder.AbsoluteCanvasSize.Y > ((info.Size or info.size or 200) + 4) then
+                    if sectionContentHolder.AbsoluteCanvasSize and sectionContentHolder.AbsoluteCanvasSize.Y > ((info.Size or info.size or 200) + 4) then
                         sectionScrolling.Visible = true
                     else
                         sectionScrolling.Visible = false
@@ -663,7 +671,7 @@ do
                 function section:Label(labelInfo)
                     -- // Variables
                     local info = labelInfo or {}
-                    local label = {Type = "Label", Name = info.Name}
+                    local label = {Type = "Label", Name = info.Name or info.Text or info.text}
                     table.insert(section.Elements, label)
                     
                     -- // Utilisation
@@ -710,7 +718,7 @@ do
                     local info = toggleInfo or {}
                     local toggle = {
                         Type = "Toggle",
-                        Name = info.Name,
+                        Name = info.Name or info.Text or info.text,
                         state = (info.Default or info.default or info.Def or info.def or false),
                         callback = (info.Callback or info.callback or function() end)
                     }
@@ -815,7 +823,7 @@ do
                     local info = buttonInfo or {}
                     local button = {
                         Type = "Button",
-                        Name = info.Name,
+                        Name = info.Name or info.Text or info.text,
                         callback = (info.Callback or info.callback or function() end)
                     }
                     table.insert(section.Elements, button)
@@ -898,7 +906,7 @@ do
                     local info = sliderInfo or {}
                     local slider = {
                         Type = "Slider",
-                        Name = info.Name,
+                        Name = info.Name or info.Text or info.text,
                         state = (info.Default or info.default or info.Def or info.def or 0),
                         min = (info.Minimum or info.minimum or info.Min or info.min or 0),
                         max = (info.Maximum or info.maximum or info.Max or info.max or 10),
@@ -928,8 +936,9 @@ do
                         Text = ""
                     }})
                     
+                    local sliderTitle
                     if (info.Name or info.name or info.Text or info.text) then
-                        local sliderTitle = utility:Create({Type = "TextLabel", Properties = {
+                        sliderTitle = utility:Create({Type = "TextLabel", Properties = {
                             AnchorPoint = Vector2.new(0, 0),
                             BackgroundTransparency = 1,
                             BorderSizePixel = 0,
@@ -1076,7 +1085,7 @@ do
                     local info = dropdownInfo or {}
                     local dropdown = {
                         Type = "Dropdown",
-                        Name = info.Name,
+                        Name = info.Name or "dropdown",
                         options = info.Options or {},
                         selected = info.Default or "",
                         open = false,
@@ -1356,7 +1365,3 @@ do
         return window
     end
 end
-
---// i sayed add drop down soo i added
-
-return library
